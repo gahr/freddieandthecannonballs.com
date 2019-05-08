@@ -38,7 +38,7 @@
              (width "30")
              (class "rounded ml-1 mr-1")))))
 
-;; Generate the buttons to change the bio language
+;; Generate the biography section
 (define (make-bio)
   (define bio-languages '("English" "Italiano"))
   
