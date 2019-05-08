@@ -1,0 +1,7 @@
+(("2019-05-25" . "Notte Bianca Locarno, Vallemaggia Magic Blues stage, feat. Bat Battiston")
+ ("2019-06-01" . "Sagra Massagnese, Massagno")
+ ("2019-06-20" . "Bellinzona Blues Festival, feat. Marcel Aeby")
+ ("2019-08-29" . "Blues To Bop, Lugano")
+ ("2019-08-30" . "Blues To Bop, Lugano")
+ ("2019-08-31" . "Blues To Bop, Lugano")
+ ("2019-09-01" . "Blues To Bop, Morcote"))

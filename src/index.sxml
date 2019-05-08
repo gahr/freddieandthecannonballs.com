@@ -1,0 +1,105 @@
+((title   . "Freddie & The Cannonballs")
+ (layouts . ("simple.sxml")))
+
+`(
+  (doctype-html)
+  (html (@ (lang "en"))
+    (head
+      (title ,($ 'title))
+      (meta (@ (charset "utf-8")))
+      (meta (@ (name "viewport")
+               (content "width=device-width, initial-scale=1")))
+      (meta (@ (name "description")
+               (content ,($ 'title))))
+      (meta (@ (name "keywords")
+               (content "Freddie,Federico Albertoni,Cannonballs,Blues")))
+
+      ;; JQuery
+      (script (@ (src "https://code.jquery.com/jquery-3.4.0.min.js")))
+
+      ;; Bootstrap
+      (link (@ (rel "stylesheet")
+               (href "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+               (integrity "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T")
+               (crossorigin "anonymous")))
+
+      (script (@ (src "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
+                 (integrity "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM")
+                 (crossorigin "anonymous")))
+
+      ;; Favicon
+      ,(make-fav-icons '("apple-touch-icon" 57 60 72 76 114 120 144 152 180 192)
+                       '("icon"             16 32 96)))
+
+    (body
+      (div (@ (class "container"))
+
+        ;; Logo row
+        (header (@ (class "row mt-4"))
+
+          (div (@ (class "col text-center"))
+            (img (@ (class "img-fluid") (src "logo.jpg") (alt ,($ 'title))))))
+
+        ;; Icons
+        (div (@ (class "row mt-4"))
+          (nav (@ (class "col text-center"))
+            ,(make-media-icon "Facebook"
+                              "icons/facebook.png"
+                              "https://facebook.com/FreddieCannonballs")
+            " "
+            ,(make-media-icon "Instagram"
+                              "icons/instagram.png"
+                              "https://instagram.com/freddieandthecannonballs")
+            " "
+            ,(make-media-icon "YouTube"
+                              "icons/youtube.png"
+                              "https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA")
+            " "
+            ,(make-media-icon "Email"
+                              "icons/email.png"
+                              "mailto:info@freddieandthecannonballs.com")))
+
+        ;; Band picture & biography
+        (div (@ (class "row mt-4"))
+
+          ;; Band picture
+          (section (@ (class "col-md mt-3"))
+            (h3 (@ (class "d-none")) Band picture)
+            (img (@ (class "img-fluid img-thumbnail")
+                    (title ,($ 'title))
+                    (src   "band.jpg"))))
+
+          ;; Biography
+          (section (@ (class "col-md mt-3"))
+            (h3 (@ (class "d-none")) biography)
+            ,(make-bio)))
+
+        ;; Events row
+        (div (@ (class "row mt-4 mb-4"))
+
+          ;; Events
+          (section (@ (class "col offset-lg-2 col-lg-8 centered"))
+            (h3 "Events")
+            ,(make-events-table))))
+
+        ;;  Closing row
+        (footer (@ (class "container"))
+          (hr)
+          (p (@ (class "text-center text-muted")
+                (style "font-size: 0.6em"))
+             "Copyright © 2019 Freddie & The Cannonballs"
+             " / "
+             "Social media icons designed by "
+             (a (@ (href "https://www.alfredocreates.com"))
+                "AlfredoCreates.com")
+             " / "
+             "Site generated with "
+             (a (@ (href "http://wiki.call-cc.org/eggref/5/hyde"))
+                "Hyde")))
+
+      ;; Local scripts
+      (script
+        (inject ,(call-with-input-file
+                    "data/scripts.js"
+                    (lambda (f)
+                      (read-string #f f))))))))
