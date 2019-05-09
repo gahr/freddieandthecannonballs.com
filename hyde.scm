@@ -3,8 +3,6 @@
         srfi-13
         (chicken io)
         (chicken irregex)
-        (chicken time)
-        (chicken time posix)
         (html-parser))
 
 ;; Exclude vim temporary files
@@ -22,6 +20,7 @@
                 (href  ,(string-append "favicons/"
                                        icon-rel "-" icon-size ".png"))
                 (type  "image/png")))))
+
   (map
     (lambda (entry)
       (map
@@ -74,14 +73,10 @@
 
 ;; Generate the dates table
 (define (make-events-table)
-
-  (define now (current-seconds))
-
   (define (make-event time event)
     `(tr (@ (class "event-row"))
        (td (@ (class "text-nowrap text-right")) ,time)
        (td                           ,event)))
-
 
   `(table (@ (id "events-table") (class "table table-bordered table-hover"))
     (thead
