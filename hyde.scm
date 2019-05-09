@@ -79,7 +79,7 @@
 
   (define (make-event time event)
     `(tr (@ (class "event-row"))
-       (td (@ (class "text-nowrap")) ,time)
+       (td (@ (class "text-nowrap text-right")) ,time)
        (td                           ,event)))
 
 
