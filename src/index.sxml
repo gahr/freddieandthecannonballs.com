@@ -47,7 +47,7 @@
                '(("Facebook"  . "https://facebook.com/FreddieCannonballs")
                  ("Instagram" . "https://instagram.com/freddieandthecannonballs")
                  ("YouTube"   . "https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA")
-                 ("Email"     .  "mailto:info@freddieandthecannonballs.com")))))
+                 ("Email"     . "mailto:info@freddieandthecannonballs.com")))))
 
         ;; Band picture & biography
         (div (@ (class "row mt-4"))
