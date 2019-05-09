@@ -78,8 +78,8 @@
   (define now (current-seconds))
 
   (define (make-event time event)
-    `(tr
-       (td (@ (class "text-nowrap")) ,(time->string time "%b %e, %g"))
+    `(tr (@ (class "event-row"))
+       (td (@ (class "text-nowrap")) ,time)
        (td                           ,event)))
 
 
@@ -92,9 +92,4 @@
       ,(call-with-input-file
          "data/events.scm"
          (lambda (channel)
-           (filter-map
-             (lambda (p)
-               (let ((t (string->time (car p) "%F")))
-                 (and (> (local-time->seconds t) now)
-                      (make-event t (cdr p)))))
-             (read channel)))))))
+           (map (lambda (p) (make-event (car p) (cdr p))) (read channel)))))))
