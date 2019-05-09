@@ -29,13 +29,18 @@
         (cdr entry)))
     icon-specs))
 
-;; Generate social media icons
-(define (make-media-icon icon-title icon-image icon-url)
-  `(a (@ (href ,icon-url))
-     (img (@ (src ,icon-image)
-             (alt ,icon-title)
-             (width "30")
-             (class "rounded ml-1 mr-1")))))
+;; Generate a set of social media icons. Specs is a list of pairs where the
+;; car is the name and the cdr is the url.
+(define (make-media-icons specs)
+  (map
+    (lambda (spec)
+      (let ((name (car spec)) (url (cdr spec)))
+        `(a (@ (href ,url))
+            (img (@ (src ,(string-append "icons/" (string-downcase name) ".png"))
+                    (alt ,name)
+                    (width "30")
+                    (class "rounded ml-2 mr-2"))))))
+    specs))
 
 ;; Generate the biography section
 (define (make-bio)

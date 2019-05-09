@@ -43,21 +43,11 @@
         ;; Icons
         (div (@ (class "row mt-4"))
           (nav (@ (class "col text-center"))
-            ,(make-media-icon "Facebook"
-                              "icons/facebook.png"
-                              "https://facebook.com/FreddieCannonballs")
-            " "
-            ,(make-media-icon "Instagram"
-                              "icons/instagram.png"
-                              "https://instagram.com/freddieandthecannonballs")
-            " "
-            ,(make-media-icon "YouTube"
-                              "icons/youtube.png"
-                              "https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA")
-            " "
-            ,(make-media-icon "Email"
-                              "icons/email.png"
-                              "mailto:info@freddieandthecannonballs.com")))
+            ,(make-media-icons
+               '(("Facebook"  . "https://facebook.com/FreddieCannonballs")
+                 ("Instagram" . "https://instagram.com/freddieandthecannonballs")
+                 ("YouTube"   . "https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA")
+                 ("Email"     .  "mailto:info@freddieandthecannonballs.com")))))
 
         ;; Band picture & biography
         (div (@ (class "row mt-4"))
