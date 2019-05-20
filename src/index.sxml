@@ -1,4 +1,4 @@
-((title   . "Freddie & The Cannonballs")
+((title   . "Freddie & the Cannonballs")
  (layouts . ("simple.sxml")))
 
 `(
