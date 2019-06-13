@@ -22,8 +22,8 @@ const setBio = function() {
       const d = eventNode.textContent; /* yyyy-mm-dd */
       eventNode.textContent = 
         parseInt(d.substring(8, 10), 10).toString() + " " +
-        months[parseInt(d.substring(5, 7), 10) - 1] + ", '" +
-        d.substring(2, 4);
+        months[parseInt(d.substring(5, 7), 10) - 1] + " " +
+        d.substring(0, 4);
     }
   });
 }());
