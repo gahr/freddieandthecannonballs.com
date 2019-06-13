@@ -83,11 +83,7 @@
        (td (@ (class "text-nowrap text-right")) ,time)
        (td                           ,event)))
 
-  `(table (@ (id "events-table") (class "table table-bordered table-hover"))
-    (thead
-      (tr
-        (th (@ (class "text-nowrap") (data-field "date")) "Date")
-        (th (@                       (data-field "desc")) "Event")))
+  `(table (@ (id "events-table") (class "table table-hover"))
     (tbody
       ,(call-with-input-file
          "data/events.scm"
