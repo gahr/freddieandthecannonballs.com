@@ -55,10 +55,10 @@
               (class "d-none"))
            ,content))
 
-  (define (make-bio-button lang lang-short)
+  (define (make-bio-button lang short)
     `(button (@ (class "btn btn-sm btn-outline-secondary mr-1")
                 (type "button")
-                (onclick ,(string-append "setBio('" lang-short "');")))
+                (onclick ,(string-append "setBio('" short "');")))
              ,lang))
 
   (list
