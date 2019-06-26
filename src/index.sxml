@@ -69,12 +69,16 @@
           ;; Band picture
           (section (@ (class "col-md mt-3"))
 
+            ,(make-hidden-header "Band picture")
+
             (img (@ (class "img-fluid img-thumbnail")
                     (title ,($ 'title))
                     (src   "band.jpg"))))
 
           ;; Biography
           (section (@ (class "col-md mt-3"))
+
+            ,(make-hidden-header "Biography")
 
             ,(make-bio)))
 

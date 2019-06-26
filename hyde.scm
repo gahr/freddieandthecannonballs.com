@@ -89,3 +89,8 @@
          "data/events.scm"
          (lambda (channel)
            (map (lambda (p) (make-event (car p) (cdr p))) (read channel)))))))
+
+;; Make a hidden section header to comply with
+;; https://www.w3.org/wiki/HTML/Usage/Headings/Missing#section_element_advice
+(define (make-hidden-header title)
+  `(h3 (@ (class "d-none")) ,title))
