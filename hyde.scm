@@ -3,7 +3,8 @@
         srfi-13
         (chicken io)
         (chicken irregex)
-        (html-parser))
+        html-parser
+        matchable)
 
 ;; Exclude vim temporary files
 (excluded-paths `(,(irregex '(seq (or "/" bos) "." (* any) ".swp" eos))))
@@ -33,8 +34,8 @@
 ;; car is the name and the cdr is the url.
 (define (make-media-icons specs)
   (map
-    (lambda (spec)
-      (let ((name (car spec)) (url (cdr spec)))
+    (match-lambda
+      ((name . url)
         `(a (@ (href ,url))
             (img (@ (src ,(string-append "icons/" (string-downcase name) ".png"))
                     (alt ,name)
@@ -78,17 +79,18 @@
 
 ;; Generate the dates table
 (define (make-events-table)
-  (define (make-event time event)
-    `(tr (@ (class "event-row"))
-       (td (@ (class "text-nowrap text-right")) ,time)
-       (td                           ,event)))
-
   `(table (@ (id "events-table") (class "table table-hover"))
     (tbody
       ,(call-with-input-file
          "data/events.scm"
          (lambda (channel)
-           (map (lambda (p) (make-event (car p) (cdr p))) (read channel)))))))
+           (map (match-lambda
+                  ((time . event)
+                   `(tr (@ (class "event-row"))
+                        (td (@ (class "text-nowrap text-right"))
+                            ,time)
+                        (td ,event))))
+                (read channel)))))))
 
 ;; Make a hidden section header to comply with
 ;; https://www.w3.org/wiki/HTML/Usage/Headings/Missing#section_element_advice
