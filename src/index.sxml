@@ -24,6 +24,9 @@
       ;; JQuery
       (script (@ (src "https://code.jquery.com/jquery-3.4.0.min.js")))
 
+      ;; Local scripts
+      (script (@ (src "scripts.js")))
+
       ;; Bootstrap
       (link (@ (rel         "stylesheet")
                (href        "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
@@ -107,12 +110,4 @@
           " / "
 
           "Site generated with "
-          (a (@ (href "http://wiki.call-cc.org/eggref/5/hyde")) "Hyde")))
-
-      ;; Local scripts
-      (script
-        (inject
-          ,(call-with-input-file
-             "data/scripts.js"
-             (lambda (f)
-               (read-string #f f))))))))
+          (a (@ (href "http://wiki.call-cc.org/eggref/5/hyde")) "Hyde"))))))

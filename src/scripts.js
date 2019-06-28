@@ -1,13 +1,9 @@
-const setBio = function() {
-  const setter = (lang) => {
-    $('#bio-content').html($('#bio-content-' + lang).html());
-  };
-  setter('en');
-  return setter;
-}();
+function setBio(lang) {
+  $('#bio-content').html($('#bio-content-' + lang).html());
+};
 
 /* Filter events so that only future ones are displayed */
-(function() {
+function filterEvents() {
   const now = new Date().toJSON().slice(0, 10);
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -26,6 +22,11 @@ const setBio = function() {
         d.substring(0, 4);
     }
   });
-}());
+};
+
+$(function() {
+  setBio('en');
+  filterEvents();
+});
 
 /* vim: set ts=2 sw=2 expandtab: */
