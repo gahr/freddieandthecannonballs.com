@@ -4,4 +4,6 @@
  ("2019-08-29" . "Blues To Bop, Lugano")
  ("2019-08-30" . "Blues To Bop, Lugano")
  ("2019-08-31" . "Blues To Bop, Lugano")
- ("2019-09-01" . "Blues To Bop, Morcote"))
+ ("2019-09-01" . "Blues To Bop, Morcote")
+ ("2019-09-15" . "13:00 - 14:30, Strada in Festa, Piazza Collegiata, Bellinzona")
+ ("2019-09-28" . "Lo StranPalato, Brescia (IT)"))
