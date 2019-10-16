@@ -81,6 +81,8 @@
 (define (make-events-table)
   `(table (@ (id "events-table") (class "table table-hover"))
     (tbody
+      (tr (@ (id "events-row-no-events"))
+          (td " ") (td "No events scheduled at this time."))
       ,(call-with-input-file
          "data/events.scm"
          (lambda (channel)

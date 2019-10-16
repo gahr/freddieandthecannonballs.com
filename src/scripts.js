@@ -10,11 +10,14 @@ function filterEvents() {
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
 
+  var hasEvents = false;
+
   $('.event-row').each(function(index, value) {
     const eventNode = value.cells.item(0);
     if (eventNode.textContent < now) {
       $(this).addClass("d-none");
     } else {
+      hasEvents = true;
       const d = eventNode.textContent; /* yyyy-mm-dd */
       eventNode.textContent = 
         parseInt(d.substring(8, 10), 10).toString() + " " +
@@ -22,6 +25,11 @@ function filterEvents() {
         d.substring(0, 4);
     }
   });
+
+  if (hasEvents)
+  {
+      $('#events-row-no-events').addClass("d-none");
+  }
 };
 
 $(function() {
