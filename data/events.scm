@@ -9,5 +9,7 @@
  ("2019-09-15" . "13:00 - 14:30, Strada in Festa, Piazza Collegiata, Bellinzona")
  ("2019-09-28" . "Lo StranPalato, Brescia (IT)")
  ("2019-12-27" . "Locarno on Ice, Locarno")
- ("2020-01-25" . "Tacos Bar, Lausanne")
+ ("2020-06-20" . "TBA")
+ ("2020-08-05" . "TBA")
+ ("2020-08-29" . "TBA")
 )
