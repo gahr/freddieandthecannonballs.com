@@ -35,22 +35,16 @@ end
 
 (* on_startup *)
 let on_startup ~(schedule_action : Action.t -> unit) _ =
-  let open Js_of_ocaml_lwt in
+  let open Async_kernel in
 
   let load_gigs =
-    let%lwt resp = XmlHttpRequest.get Gig.fetch_url in
-    schedule_action @@ Action.SetGigsContent resp.content;
-    Lwt.return ()
+    Async_js.Http.get Gig.fetch_url >>| function
+      | Result.Ok body -> schedule_action (Action.SetGigsContent body)
+      | Result.Error _ -> ()
   in
 
   (* Start asynchronous jobs *)
-  let () =
-    Lwt.async (fun () ->
-      let%lwt () = load_gigs in
-      Lwt.return ()
-    )
-  in
-  Async_kernel.Deferred.unit
+  load_gigs
 
 (* view *)
 let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
