@@ -11,6 +11,8 @@ let date g = g.date
 
 let desc g = g.desc
 
+let no_events_msg = "No events scheduled at this time."
+
 let parse s =
   (* yyyy-mm-dd desc foo bar baz *)
   let date_len = 10 in
