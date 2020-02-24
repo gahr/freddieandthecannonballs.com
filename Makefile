@@ -1,5 +1,5 @@
 all:
-	hyde
+	dune build --profile=release
 
 clean:
-	rm -rf out
+	rm -rf _build

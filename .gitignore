@@ -1,1 +1,2 @@
-out/**
+.merlin
+_build
