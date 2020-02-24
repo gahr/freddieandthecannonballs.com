@@ -18,8 +18,8 @@ end
 (* action *)
 module Action = struct
   type t =
-  | SetBioLanguage of Lang.t
-  | SetGigsContent of string
+    | SetBioLanguage of Lang.t
+    | SetGigsContent of string
   [@@deriving sexp]
 
   let apply (model : Model.t) action _ ~schedule_action:_ =
@@ -39,8 +39,8 @@ let on_startup ~(schedule_action : Action.t -> unit) _ =
 
   let load_gigs =
     Async_js.Http.get Gig.fetch_url >>| function
-      | Result.Ok body -> schedule_action (Action.SetGigsContent body)
-      | Result.Error _ -> ()
+    | Result.Ok body -> schedule_action (Action.SetGigsContent body)
+    | Result.Error _ -> ()
   in
 
   (* Start asynchronous jobs *)
@@ -159,20 +159,20 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
   in
   let colophon =
     Node.p
-        [ Attr.classes ["text-center";"text-muted"]
-        ; Attr.style (Css_gen.font_size (Css_gen.Length.(`Rem 0.6)))
-        ]
-        [ Node.hr []
-        ; Node.text "Copyright © 2019 Freddie & The Cannonballs"
-        ; Node.text " / Social media icons designed by "
-        ; Node.a
-            [ Attr.href "https://www.alfredocreates.com" ]
-            [ Node.text "AlfredoCreates.com" ]
-        ; Node.text " / Site generated with "
-        ; Node.a
-            [ Attr.href "https://github.com/janestreet/incr_dom" ]
-            [ Node.text "Incr_dom" ]
-        ]
+      [ Attr.classes ["text-center";"text-muted"]
+      ; Attr.style (Css_gen.font_size (Css_gen.Length.(`Rem 0.6)))
+      ]
+      [ Node.hr []
+      ; Node.text "Copyright © 2019 Freddie & The Cannonballs"
+      ; Node.text " / Social media icons designed by "
+      ; Node.a
+          [ Attr.href "https://www.alfredocreates.com" ]
+          [ Node.text "AlfredoCreates.com" ]
+      ; Node.text " / Site generated with "
+      ; Node.a
+          [ Attr.href "https://github.com/janestreet/incr_dom" ]
+          [ Node.text "Incr_dom" ]
+      ]
   in
   Node.div
     [ ]

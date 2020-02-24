@@ -3,3 +3,6 @@ all:
 
 clean:
 	rm -rf _build
+
+indent:
+	ocp-indent -i *.ml *.mli
