@@ -122,33 +122,39 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
       ]
   in
   let gigs =
-    let make_gig_tr g =
-      let pretty_date d =
+    let gigs_list =
+      let future_gig g =
+        Date.((Gig.date g) >= today Time.Zone.utc)
+      in
+      let format_gig g =
+        let pretty_date d =
           (d |> Date.day |> string_of_int) ^ " " ^
           (d |> Date.month |> Month.to_string) ^ " " ^
           (d |> Date.year |> string_of_int)
+        in
+        (Gig.date g |> pretty_date, Gig.desc g)
       in
+      match List.filter model.gigs ~f:future_gig with
+      | [] -> ["", Gig.no_events_msg]
+      | xs -> List.map xs ~f:format_gig
+    in
+    let make_gig_tr (date, desc) =
       Node.tr
         []
         [ Node.td
             [ Attr.classes ["text-nowrap";"text-right"] ]
-            [ Gig.date g |> pretty_date |> Node.text ]
+            [ Node.text date ]
         ; Node.td
             []
-            [ Gig.desc g |> Node.text ]
+            [ Node.text desc ]
         ]
-    in
-    let make_future_gig g =
-      match Date.((Gig.date g) >= today Time.Zone.utc) with
-      | true  -> Some (make_gig_tr g)
-      | false -> None
     in
     Node.section
       [ Attr.classes ["col";"offset-lg-2";"col-lg-8";"centered"] ]
       [ Node.h3 [] [ Node.text "Events" ]
       ; Node.table
           [ Attr.classes ["table";"table-hover"] ]
-          [ Node.tbody [] (List.filter_map model.gigs make_future_gig) ]
+          [ Node.tbody [] (List.map gigs_list ~f:make_gig_tr) ]
       ]
   in
   let colophon =
