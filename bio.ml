@@ -17,8 +17,11 @@ let bio_of_lang lang =
         songs as well as a substantial tribute to Jimmie Vaughan. The band’s
         first record, i.e. an EP entitled “F” which features four original
         songs, came out in June 2019. Freddie & the Cannonballs then had the
-        chance to perform at two major Swiss blues festivals: Bellinzona Blues
-        and Lugano Blues to Bop.</p>|}]
+        chance to perform at two major Swiss blues festivals: <b>Bellinzona
+        Blues</b> and <b>Lugano Blues to Bop</b>. In May 2020 the band has the
+        great honour of being selected as one of the four finalists of the
+        <b>2020 Swiss Blues Challenge</b>, which was later postponed to July
+        2nd 2021 due to the unfortunate Covid-19 situation.</p>|}]
 
     | Lang.Ita -> [%html {|<p><b>Freddie “Cannonball” Albertoni</b> è un
         bassista attivo da 15 anni sulla scena blues/rock ticinese. Per diversi
@@ -39,6 +42,9 @@ let bio_of_lang lang =
         omaggio a Jimmie Vaughan. Il primo lavoro discografico, un EP
         intitolato “F” contenente quattro brani originali, è uscito a giugno
         2019.  Durante l’estate 2019 Freddie & the Cannonballs partecipano a
-        due prestigiosi blues festival elvetici: Bellinzona Blues e Lugano
-        Blues to Bop.</p>|}]
+        due prestigiosi blues festival elvetici: <b>Bellinzona Blues</b> e
+        <b>Lugano Blues to Bop</b>. A maggio 2020 la band ha il grande onore di
+        essere selezionata per la finale dello <b>Swiss Blues Challenge
+        2020</b> che, a causa della  situazione legata al Covid-19, viene
+        posticipata al 2 luglio 2021.</p>|}]
   in Html.toelt bio
