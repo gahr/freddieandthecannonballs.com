@@ -5,11 +5,13 @@ module Model = struct
   type t =
     { gigs : Gig.t list
     ; lang : Lang.t
+    ; bio : string
     } [@@deriving sexp, compare]
 
   let create () =
     { gigs = []
     ; lang = Lang.default
+    ; bio = ""
     }
 
   let cutoff t1 t2 = compare t1 t2 = 0
@@ -18,14 +20,33 @@ end
 (* action *)
 module Action = struct
   type t =
-    | SetBioLanguage of Lang.t
-    | SetGigsContent of string
+    | FetchGigs of unit
+    | FetchBio of Lang.t
+    | SetBio of string
+    | SetGigs of string
   [@@deriving sexp]
 
-  let apply (model : Model.t) action _ ~schedule_action:_ =
-    match (action : t) with
-    | SetBioLanguage lang -> { model with lang }
-    | SetGigsContent gigs -> { model with gigs = Gig.parse gigs }
+  let apply (model : Model.t) action _ ~schedule_action =
+    let fetch_gigs () =
+      Gig.fetch ~handler:(fun gigs -> schedule_action (SetGigs gigs));
+      model
+    in
+    let fetch_bio lang =
+      if (String.is_empty model.bio) || (Lang.compare lang model.lang <> 0)
+      then
+        begin
+          Bio.fetch ~lang ~handler:(fun bio -> schedule_action (SetBio bio));
+          { model with lang }
+        end
+      else
+        model
+    in
+
+    match action with
+    | FetchGigs _ -> fetch_gigs ()
+    | FetchBio lang -> fetch_bio lang
+    | SetBio bio -> { model with bio }
+    | SetGigs gigs -> { model with gigs = Gig.parse gigs }
 end
 
 (* state *)
@@ -35,16 +56,11 @@ end
 
 (* on_startup *)
 let on_startup ~(schedule_action : Action.t -> unit) _ =
-  let open Async_kernel in
-
-  let load_gigs =
-    Async_js.Http.get Gig.fetch_url >>| function
-    | Result.Ok body -> schedule_action (Action.SetGigsContent body)
-    | Result.Error _ -> ()
-  in
-
-  (* Start asynchronous jobs *)
-  load_gigs
+  let open Async_kernel in 
+  return begin
+    schedule_action (Action.FetchGigs ());
+    schedule_action (Action.FetchBio Lang.default)
+  end
 
 (* view *)
 let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
@@ -73,7 +89,7 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
     Node.button
       [ Attr.classes ["btn";"btn-sm";"btn-outline-secondary";"mr-1"]
       ; Attr.type_ "button"
-      ; Attr.on_click (fun _ -> Action.SetBioLanguage lang |> inject)
+      ; Attr.on_click (fun _ -> Action.FetchBio lang |> inject)
       ]
       [ Lang.string_of_lang lang |> Node.text ]
   in
@@ -115,16 +131,16 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
       [ make_hidden_header "Biography"
       ; Node.p
           [ Attr.class_ "text-justify" ]
-          [ Bio.bio_of_lang model.lang ]
+          [ Parse.node_of_string model.bio ]
       ; Node.div
           []
-          (List.map Lang.all make_lang_button)
+          (List.map Lang.all ~f:make_lang_button)
       ]
   in
   let gigs =
     let gigs_list =
       let future_gig g =
-        Date.((Gig.date g) >= today Time.Zone.utc)
+        Date.((Gig.date g) >= today ~zone:Time.Zone.utc)
       in
       let format_gig g =
         let pretty_date d =
@@ -160,7 +176,7 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
   let colophon =
     Node.p
       [ Attr.classes ["text-center";"text-muted"]
-      ; Attr.style (Css_gen.font_size (Css_gen.Length.(`Rem 0.6)))
+      ; Attr.style (`Rem 0.6 |> Css_gen.font_size)
       ]
       [ Node.hr []
       ; Node.text "Copyright © 2019 Freddie & The Cannonballs"
