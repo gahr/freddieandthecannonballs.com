@@ -2,7 +2,7 @@ all:
 	dune build --profile=release
 
 clean:
-	rm -rf _build
+	dune clean
 
 indent:
 	ocp-indent -i *.ml *.mli

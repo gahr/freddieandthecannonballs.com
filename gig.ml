@@ -5,8 +5,6 @@ type t =
   ; desc : string
   } [@@deriving sexp, compare]
 
-let fetch_url = "gigs.txt?nocache"
-
 let date g = g.date
 
 let desc g = g.desc
@@ -31,5 +29,8 @@ let parse s =
     let%bind desc = maybe_desc in
     Some { date; desc }
   in
-  let gigs = List.filter_map (String.split_lines s) maybe_gig in
-  List.sort gigs (fun lhs rhs -> Date.(compare lhs.date rhs.date))
+  let gigs = List.filter_map (String.split_lines s) ~f:maybe_gig in
+  List.sort gigs ~compare:(fun lhs rhs -> Date.(compare lhs.date rhs.date))
+
+let fetch ~handler =
+  Url.fetch ~url:"./data/gigs.txt" ~not_found_msg:no_events_msg ~handler
