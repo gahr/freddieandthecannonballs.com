@@ -1,6 +1,6 @@
 #!/usr/bin/env tclsh
 
-set assets { index.html main.bc.js favicons icons img }
+set assets { index.html src/main.bc.js favicons icons img }
 
 set srcdir [file dirname [info script]]
 set dstdir [lindex $::argv 0]
@@ -21,5 +21,5 @@ proc install {src dst} {
 }
 
 foreach asset $assets {
-    install [file join $srcdir $asset] [file join $dstdir $asset]
+    install [file join $srcdir $asset] [file join $dstdir [file tail $asset]]
 }
