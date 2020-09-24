@@ -56,11 +56,9 @@ end
 
 (* on_startup *)
 let on_startup ~(schedule_action : Action.t -> unit) _ =
-  let open Async_kernel in 
-  return begin
-    schedule_action (Action.FetchGigs ());
-    schedule_action (Action.FetchBio Lang.default)
-  end
+  schedule_action (Action.FetchGigs ());
+  schedule_action (Action.FetchBio Lang.default)
+  |> Async_kernel.return
 
 (* view *)
 let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
