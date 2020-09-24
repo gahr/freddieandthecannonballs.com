@@ -1,6 +1,8 @@
 open Core_kernel
 
-(* model *)
+(******************************************************************************
+ * model
+ *****************************************************************************)
 module Model = struct
   type t =
     { gigs : Gig.t list
@@ -17,7 +19,9 @@ module Model = struct
   let cutoff t1 t2 = compare t1 t2 = 0
 end
 
-(* action *)
+(******************************************************************************
+ * action
+ *****************************************************************************)
 module Action = struct
   type t =
     | FetchGigs of unit
@@ -49,18 +53,22 @@ module Action = struct
     | SetGigs gigs -> { model with gigs = Gig.parse gigs }
 end
 
-(* state *)
-module State = struct
-  type t = unit
-end
+(******************************************************************************
+ * state
+ *****************************************************************************)
+module State = struct type t = unit end
 
-(* on_startup *)
+(******************************************************************************
+ * on_startup
+ *****************************************************************************)
 let on_startup ~(schedule_action : Action.t -> unit) _ =
   schedule_action (Action.FetchGigs ());
   schedule_action (Action.FetchBio Lang.default)
   |> Async_kernel.return
 
-(* view *)
+(******************************************************************************
+ * view
+ *****************************************************************************)
 let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
   let title = "Freddie & the Cannonballs" in
   let open Incr_dom.Vdom in
@@ -198,7 +206,9 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
         [ colophon ]
     ]
 
-(* create *)
+(******************************************************************************
+ * create
+ *****************************************************************************)
 let create model ~old_model:_ ~inject =
   let open Incr_dom in
   let open Incr.Let_syntax in
