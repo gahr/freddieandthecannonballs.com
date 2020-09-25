@@ -33,4 +33,4 @@ let parse s =
   List.sort gigs ~compare:(fun lhs rhs -> Date.(compare lhs.date rhs.date))
 
 let fetch ~handler =
-  Url.fetch ~url:"./data/gigs.txt" ~not_found_msg:no_events_msg ~handler
+  Url.fetch ~url:"./data/gigs.txt" ~on_error_msg:no_events_msg ~handler
