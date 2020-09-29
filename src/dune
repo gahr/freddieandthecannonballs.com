@@ -1,5 +1,5 @@
 (executable
   (name main)
   (libraries incr_dom)
-  (preprocess (pps ppx_jane tyxml-ppx))
+  (preprocess (pps ppx_jane))
   (modes js))
