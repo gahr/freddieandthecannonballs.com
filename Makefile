@@ -5,4 +5,4 @@ clean:
 	dune clean
 
 indent:
-	ocp-indent -i *.ml *.mli
+	ocp-indent -i src/*.ml src/*.mli
