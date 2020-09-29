@@ -190,7 +190,11 @@ let view (model : Model.t) ~(inject : Action.t -> Incr_dom.Vdom.Event.t) =
       ; Node.a
           [ Attr.href "https://www.alfredocreates.com" ]
           [ Node.text "AlfredoCreates.com" ]
-      ; Node.text " / Site generated with "
+      ; Node.text " / Powered by "
+      ; Node.a
+          [ Attr.href "https://ocaml.org" ]
+          [ Node.text "OCaml" ]
+      ; Node.text " + "
       ; Node.a
           [ Attr.href "https://github.com/janestreet/incr_dom" ]
           [ Node.text "Incr_dom" ]
