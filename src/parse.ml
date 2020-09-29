@@ -21,7 +21,8 @@ let rec drop i xs =
 let index_of elt xs =
   let rec aux i elt = function
     | [] -> None
-    | x :: xs -> if (phys_equal x elt) then Some i else aux (i + 1) elt xs
+    | x :: _ when Char.(x = elt) -> Some i
+    | _ :: xs -> aux (i + 1) elt xs
   in
   aux 0 elt xs
 
