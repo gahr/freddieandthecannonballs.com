@@ -1,8 +1,0 @@
-<?
-
-source {funcs.tcl}
-
-@ [get-bio [pick-bio-lang]]
-
-# vim: set ft=tcl ts=4 sw=4 expandtab:
-?>

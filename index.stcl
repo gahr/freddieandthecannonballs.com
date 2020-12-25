@@ -1,5 +1,6 @@
 <?
   source funcs.tcl
+  action::handle
 ?>
 
 <!DOCTYPE HTML>
@@ -83,19 +84,19 @@
         <section class="col-md mt-3">
           <h3 class="d-none">Biography</h3>
           <p class="text-justify" id="bio-p">
-          <?@ [get-bio en] ?>
+          <?@ [bio::generate] ?>
           </p>
           <div>
             <button class="btn btn-sm btn-outline-secondary mr-1"
                     type="button"
-                    data-hx-get="./bio.stcl?lang=en"
+                    data-hx-get="?action=get-bio&lang=en"
                     data-hx-swap="innerHTML"
                     data-hx-target="#bio-p">
               English
             </button>
             <button class="btn btn-sm btn-outline-secondary mr-1"
                     type="button"
-                    data-hx-get="./bio.stcl?lang=it"
+                    data-hx-get="?action=get-bio&lang=it"
                     data-hx-swap="innerHTML"
                     data-hx-target="#bio-p">
               Italiano
@@ -107,10 +108,10 @@
       <!-- Gigs -->
       <div class="row mt-4">
         <section class="col offset-lg-2 col-lg-8 centered">
-          <h3>Events</h3>
+          <h3><?@ [string totitle [lang::translate events]] ?></h3>
           <table class="table table-hover">
             <tbody>
-              <?@ [format-gigs [get-gigs]] ?>
+              <?@ [gigs::generate] ?>
             </tbody>
           </table>
         </section>
