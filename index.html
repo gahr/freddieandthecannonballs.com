@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Freddie &amp; the Cannonballs"/>
     <meta name="keywords" content="Freddie,Federico Albertoni,Cannonballs,Blues"/>
+    <script src="https://unpkg.com/htmx.org@1.0.2"></script>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <script src='main.bc.js?cache=none'></script>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-touch-icon-57x57.png" type="image/png"/>
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-touch-icon-60x60.png" type="image/png"/>
     <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-touch-icon-72x72.png" type="image/png"/>
@@ -26,8 +26,108 @@
     <link rel="icon" sizes="96x96" href="favicons/icon-96x96.png" type="image/png"/>
   </head>
   <body>
-    <div id="app">
+    <div class="container">
+      <!-- Logo -->
+      <header class="row mt-4">
+        <div class="col text-center">
+          <img class="img-fluid" src="img/logo.jpg" alt="Freddie & the Cannonballs"/>
+        </div>
+      </header>
+
+      <!-- Media icons -->
+      <div class="row mt-4">
+        <nav class="col text-center">
+          <a href="https://facebook.com/FreddieCannonballs">
+            <img class="rounded ml-2 mr-2"
+                 width="30"
+                 src="icons/facebook.png"
+                 alt="facebook"/>
+          </a>
+          <a href="https://instagram.com/freddieandthecannonballs">
+            <img class="rounded ml-2 mr-2"
+                 width="30"
+                 src="icons/instagram.png"
+                 alt="Instagram"/>
+          </a>
+          <a href="https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA">
+            <img class="rounded ml-2 mr-2"
+                 width="30"
+                 src="icons/youtube.png"
+                 alt="YouTube"/>
+          </a>
+          <a href="mailto:info@freddieandthecannonballs.com">
+            <img class="rounded ml-2 mr-2"
+                 width="30"
+                 src="icons/email.png"
+                 alt="Email"/>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Picture + Bio -->
+      <div class="row mt-4">
+        
+        <!-- Picture -->
+        <section class="col-md mt-3">
+          <h3 class="d-none">Band picture</h3>
+          <img class="img-fluid img-thumbnail"
+               src="img/band.jpg"
+               alt="Freddie & the Cannonballs"/>
+        </section>
+
+        <!-- Bio -->
+        <section class="col-md mt-3">
+          <h3 class="d-none">Biography</h3>
+          <p class="text-justify"
+             id="bio-p" 
+             data-hx-trigger="load"
+             data-hx-get="./bio.stcl?lang=en"
+             data-hx-swap="innerHTML">
+          </p>
+          <div>
+            <button class="btn btn-sm btn-outline-secondary mr-1"
+                    type="button"
+                    data-hx-get="./bio.stcl?lang=en"
+                    data-hx-swap="innerHTML"
+                    data-hx-target="#bio-p">
+              English
+            </button>
+            <button class="btn btn-sm btn-outline-secondary mr-1"
+                    type="button"
+                    data-hx-get="./bio.stcl?lang=it"
+                    data-hx-swap="innerHTML"
+                    data-hx-target="#bio-p">
+              Italiano
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Gigs -->
+      <div class="row mt-4">
+        <section class="col offset-lg-2 col-lg-8 centered">
+          <h3>Events</h3>
+          <table class="table table-hover">
+            <tbody data-hx-trigger="load"
+                   data-hx-get="./gigs.stcl"
+                   data-hx-swap="innerHTML">
+            </tbody>
+          </table>
+        </section>
+      </div>
     </div>
+
+    <footer class="container">
+
+      <!-- Colophon -->
+      <hr/>
+      <p class="text-center text-muted" style="font-size: 0.6rem">
+        Copyright &copy; 2019-2020 Freddie & the Cannonballs /
+        Social media icons designed by
+        <a href="https://www.alfredocreates.com">AlfredoCreates.com</a> /
+        Powered by <a href="https://htmx.org">&lt;/&gt; htmx</a>
+      </p>
+    </footer>
   </body>
 </html>
 
