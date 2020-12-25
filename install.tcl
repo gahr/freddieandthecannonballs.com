@@ -1,6 +1,6 @@
 #!/usr/bin/env tclsh
 
-set assets { index.html favicons icons img funcs.tcl gigs.stcl bio.stcl }
+set assets { index.stcl favicons icons img funcs.tcl bio.stcl }
 
 set srcdir [file dirname [info script]]
 set dstdir [lindex $::argv 0]
