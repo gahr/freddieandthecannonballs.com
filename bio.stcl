@@ -1,0 +1,25 @@
+<?
+
+source {funcs.tcl}
+
+set langs {en it}
+
+proc get-bio {lang} {
+    with "./data/bio-$lang.txt" r fd {
+        string map { \{ <b> \} </b> } [read $fd]
+    }
+}
+
+proc pick-bio-lang {} {
+    set lang [::scgi::param lang]
+    if {$lang in $::langs} {
+        set lang
+    } else {
+        lindex $::langs 0
+    }
+}
+
+@ [get-bio [pick-bio-lang]]
+
+# vim: set ft=tcl ts=4 sw=4 expandtab:
+?>
