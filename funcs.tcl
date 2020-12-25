@@ -25,7 +25,7 @@ proc get-bio {lang} {
 }
 
 proc pick-bio-lang {} {
-    set lang [::scgi::param lang]
+    set lang [dict getdef $::scgi::params lang [lindex $::langs 0]]
     if {$lang in $::langs} {
         set lang
     } else {
