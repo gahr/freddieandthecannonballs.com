@@ -29,6 +29,14 @@
     <link rel="icon" sizes="16x16" href="favicons/icon-16x16.png" type="image/png"/>
     <link rel="icon" sizes="32x32" href="favicons/icon-32x32.png" type="image/png"/>
     <link rel="icon" sizes="96x96" href="favicons/icon-96x96.png" type="image/png"/>
+    <style>
+      .icon {
+        width: 30px;
+      }
+      .colophon {
+        font-size: 0.6rem;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -42,30 +50,7 @@
       <!-- Media icons -->
       <div class="row mt-4">
         <nav class="col text-center">
-          <a href="https://facebook.com/FreddieCannonballs">
-            <img class="rounded ml-2 mr-2"
-                 width="30"
-                 src="icons/facebook.png"
-                 alt="facebook"/>
-          </a>
-          <a href="https://instagram.com/freddieandthecannonballs">
-            <img class="rounded ml-2 mr-2"
-                 width="30"
-                 src="icons/instagram.png"
-                 alt="Instagram"/>
-          </a>
-          <a href="https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA">
-            <img class="rounded ml-2 mr-2"
-                 width="30"
-                 src="icons/youtube.png"
-                 alt="YouTube"/>
-          </a>
-          <a href="mailto:info@freddieandthecannonballs.com">
-            <img class="rounded ml-2 mr-2"
-                 width="30"
-                 src="icons/email.png"
-                 alt="Email"/>
-          </a>
+        <?@ [icons::generate] ?>
         </nav>
       </div>
 
@@ -122,7 +107,7 @@
 
       <!-- Colophon -->
       <hr/>
-      <p class="text-center text-muted" style="font-size: 0.6rem">
+      <p class="text-center text-muted colophon">
         Copyright &copy; 2019-2020 Freddie & the Cannonballs /
         Social media icons designed by
         <a href="https://www.alfredocreates.com">AlfredoCreates.com</a> /
