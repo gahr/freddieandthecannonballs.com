@@ -108,10 +108,11 @@
       <!-- Colophon -->
       <hr/>
       <p class="text-center text-muted colophon">
-        Copyright &copy; 2019-2020 Freddie & the Cannonballs /
+        Copyright &copy; 2019-2021 Freddie & the Cannonballs /
         Social media icons designed by
         <a href="https://www.alfredocreates.com">AlfredoCreates.com</a> /
-        Powered by <a href="https://htmx.org">&lt;/&gt; htmx</a>
+        Powered by <a href="https://github.com/gahr/tcl-scgi">tcl-scgi</a> and
+        <a href="https://htmx.org">&lt;/&gt; htmx</a>
       </p>
     </footer>
   </body>
