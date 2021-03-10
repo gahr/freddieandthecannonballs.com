@@ -87,6 +87,8 @@ namespace eval gigs {
     variable in_format  {%Y-%m-%d} \
              out_format {%e %b %Y}
 
+    variable classes {text-nowrap text-right}
+
     proc approx-day {epoch} {
         expr {int(floor($epoch/86400)) * 86400}
     }
@@ -112,11 +114,9 @@ namespace eval gigs {
     }
 
     proc generate-one {date desc} {
-        return "\
-            <tr>\
-                <td class='text-nowrap text-right'>$date</td>\
-                <td>$desc</td>\
-            </tr>"
+        variable classes
+        namespace path ::scgi::html
+        tr {} [list [td [list class $classes] [list $date]] [td {} [list $desc]]]
     }
 
     proc generate {} {
@@ -133,6 +133,33 @@ namespace eval gigs {
             }
         }
         set out
+    }
+}
+
+namespace eval icons {
+    variable icons {
+        facebook  https://facebook.com/FreddieCannonballs
+        instagram https://instagram.com/freddieandthecannonballs
+        youtube   https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA
+        email     mailto:info@freddieandthecannonballs.com
+    }
+
+    variable classes {rounded ml-2 icon}
+
+    proc attrs {name} {
+        variable classes
+        lappend out class $classes
+        lappend out src   icons/$name.png
+        lappend out alt   [string totitle $name]
+        set out
+    }
+
+    proc generate {} {
+        variable icons
+        namespace path ::scgi::html
+        dict for {name uri} $icons {
+            @ [a [list href $uri] [list [img [attrs $name] {}]] ]
+        }
     }
 }
 
