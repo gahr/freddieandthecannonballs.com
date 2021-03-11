@@ -11,7 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Freddie &amp; the Cannonballs"/>
     <meta name="keywords" content="Freddie,Federico Albertoni,Cannonballs,Blues"/>
-    <script src="https://unpkg.com/htmx.org@1.0.2"></script>
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+	  <script src="scripts.js"></script>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -68,22 +71,18 @@
         <!-- Bio -->
         <section class="col-md mt-3">
           <h3 class="d-none">Biography</h3>
-          <p class="text-justify" id="bio-p">
+          <p class="text-justify" id="i18n-bio">
           <?@ [bio::generate] ?>
           </p>
           <div>
             <button class="btn btn-sm btn-outline-secondary mr-1"
                     type="button"
-                    data-hx-get="?action=get-bio&lang=en"
-                    data-hx-swap="innerHTML"
-                    data-hx-target="#bio-p">
+                    id="lang-en">
               English
             </button>
             <button class="btn btn-sm btn-outline-secondary mr-1"
                     type="button"
-                    data-hx-get="?action=get-bio&lang=it"
-                    data-hx-swap="innerHTML"
-                    data-hx-target="#bio-p">
+                    id="lang-it">
               Italiano
             </button>
           </div>
@@ -93,7 +92,7 @@
       <!-- Gigs -->
       <div class="row mt-4">
         <section class="col offset-lg-2 col-lg-8 centered">
-          <h3><?@ [string totitle [lang::translate events]] ?></h3>
+          <h3 id="i18n-events"><?@ [string totitle [lang::translate events]] ?></h3>
           <table class="table table-hover">
             <tbody>
               <?@ [gigs::generate] ?>
@@ -111,8 +110,7 @@
         Copyright &copy; 2019-2021 Freddie & the Cannonballs /
         Social media icons designed by
         <a href="https://www.alfredocreates.com">AlfredoCreates.com</a> /
-        Powered by <a href="https://github.com/gahr/tcl-scgi">tcl-scgi</a> and
-        <a href="https://htmx.org">&lt;/&gt; htmx</a>
+        Powered by <a href="https://github.com/gahr/tcl-scgi">tcl-scgi</a>
       </p>
     </footer>
   </body>
