@@ -1,3 +1,5 @@
+package require json::write
+
 namespace eval util {
     proc with {fname mode varname script} {
         try {
@@ -14,7 +16,7 @@ namespace eval lang {
     variable terms {
         en {}
         it {
-            events eventi
+            Events Eventi
         }
     }
 
@@ -80,6 +82,14 @@ namespace eval bio {
         util::with "./data/bio-$::g(lang).txt" r fd {
             string map { \{ <b> \} </b> } [read $fd]
         }
+    }
+}
+
+namespace eval i18n {
+    proc generate {} {
+        json::write object \
+            bio    [json::write string [bio::generate]] \
+            events [json::write string [lang::translate Events]]
     }
 }
 
@@ -168,6 +178,9 @@ namespace eval action {
         switch [dict getdef $::scgi::params action {}] {
             {get-bio} {
                 @ [bio::generate]
+            }
+            {get-i18n} {
+                @ [i18n::generate]
             }
             {default} {
                 return
