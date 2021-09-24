@@ -2,12 +2,13 @@ package require json::write
 
 namespace eval util {
   proc with {fname mode varname script} {
-    try {
-      upvar $varname fd
-      set fd [open $fname $mode]
-      uplevel $script
-    } finally {
-      close $fd
+    upvar $varname fd
+    if {![catch {open $fname $mode} fd]} {
+      try {
+        uplevel $script
+      } finally {
+        close $fd
+      }
     }
   }
 }
@@ -94,7 +95,8 @@ namespace eval i18n {
 }
 
 namespace eval gigs {
-  variable in_format  {%Y-%m-%d} \
+  variable data_file {./data/gigs.txt} \
+           in_format  {%Y-%m-%d} \
            out_format {%e %b %Y}
 
   variable classes {text-nowrap text-right}
@@ -103,24 +105,43 @@ namespace eval gigs {
     expr {int(floor($epoch/86400)) * 86400}
   }
 
-  proc gigs {} { 
+  proc parse-one {line} {
     variable in_format
 
+    # We accept single dates and periods
+    # 2020-05-11 Title
+    # 2020-05-11,2020-05-14 Title
+    set rex {^(\d{4}-\d{2}-\d{2})(?:,(\d{4}-\d{2}-\d{2}))? (.*)$}
+    if {![regexp $rex $line _ start end desc]} {
+      return {}
+    }
+    if {[catch {clock scan $start -format $in_format} startepoch]} {
+      return {}
+    }
+    if {$end ne {}} {
+      if {[catch {clock scan $end -format $in_format} endepoch]} {
+        return {}
+      }
+    } else {
+      set endepoch 0
+    }
+
+   list $startepoch $endepoch $desc
+  }
+
+  proc gigs {} { 
+    variable data_file
+
     set gigs [list]
-    util::with {./data/gigs.txt} r fd {
+    util::with $data_file r fd {
       while {[gets $fd line] >= 0} {
-        set date [string range $line 0 10]
-        set desc [string range $line 11 end]
-        if {$date eq {} || $desc eq {}} {
-          continue
+        set gig [parse-one $line]
+        if {[llength $gig] == 3} {
+          lappend gigs $gig
         }
-        if {[catch {clock scan $date -format $in_format} epoch]} {
-          continue
-        }
-        lappend gigs [list $epoch $desc]
       }
     }
-    set gigs
+    lsort -index {0} $gigs
   }
 
   proc generate-one {date desc} {
@@ -136,9 +157,19 @@ namespace eval gigs {
 
     set out ""
     foreach gig [gigs] {
-      lassign $gig epoch desc
-      if {[approx-day $epoch] >= $today} {
-        set date [clock format $epoch -format $out_format]
+      lassign $gig startepoch endepoch desc
+      if {[approx-day $startepoch] >= $today} {
+        set date [clock format $startepoch -format $out_format]
+        if {$endepoch != 0} {
+          set edate [clock format $endepoch -format $out_format]
+          lassign [split $date { }] sd sm sy
+          lassign [split $edate { }] ed em ey
+          if {$sm eq $em && $sy eq $ey} {
+            set date "$sd - $ed $sm $sy"
+          } else {
+            append date " - " $edate
+          }
+        }
         append out [generate-one $date $desc]
       }
     }
