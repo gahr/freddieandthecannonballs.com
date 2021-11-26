@@ -185,7 +185,7 @@ namespace eval icons {
     email     mailto:info@freddieandthecannonballs.com
   }
 
-  variable classes {rounded ml-2 icon}
+  variable classes {rounded ml-1 mr-1 icon}
 
   proc attrs {name} {
     variable classes
