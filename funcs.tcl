@@ -15,9 +15,15 @@ namespace eval util {
 
 namespace eval lang {
   variable terms {
-    en {}
+    en {
+      events    Events
+      download  {Download the full album (CD1)}
+      here      {here}
+    }
     it {
-      Events Eventi
+      events Eventi
+      download {Scarica l'intero album (CD1)}
+      here qui
     }
   }
 
@@ -25,7 +31,7 @@ namespace eval lang {
     variable terms
     dict keys $terms
   }
-
+ 
   proc translate {term} {
     variable terms
     dict getdef [dict get $terms $::g(lang)] $term $term
@@ -89,8 +95,10 @@ namespace eval bio {
 namespace eval i18n {
   proc generate {} {
     json::write object \
-      bio    [json::write string [bio::generate]] \
-      events [json::write string [lang::translate Events]]
+      bio      [json::write string [bio::generate]] \
+      events   [json::write string [lang::translate events]] \
+      download [json::write string [lang::translate download]] \
+      here     [json::write string [lang::translate here]]
   }
 }
 
@@ -218,6 +226,108 @@ namespace eval action {
       }
     }
     exit
+  }
+}
+
+namespace eval site {
+	proc make-songs {} {
+		set songs {
+			{Cannonballs!}
+			{The Proof Is In The Pudding}
+			{Let Me Sleep}
+			{yOur Pain}
+			{Barking Up The Wrong Tree}
+			{Mosquito}
+			{Unsung Hero}
+			{Banana}
+			{We Shall Not Be Moved}}
+	
+		@ <ol>
+    set l [llength $songs]
+		set i 1
+		foreach song $songs {
+			@ <li>
+			@ "<button class='btn btn-sm mr-1' type='button' id='song-btn-$i' onclick='play($i, $l)'>&#x23EF;</button>"
+			@ "<span id='song-title-$i'>$song</span>"
+			@ " <audio id='song-$i'><source src='data/TwoSidesOfTheSameCoin/$i. $song.mp3' type='audio/mpeg'></audio>"
+			@ </li>
+      incr i
+		}
+		@ </ol>
+    @ "<p><span id='i18n-download'>[lang::translate download]</span> "
+    @ "<a href='data/TwoSidesOfTheSameCoin/FreddieAndTheCannonballs-TwoSidesOfTheSameCoin.zip'><span id='i18n-here'>[lang::translate here]</span></a>."
+    @ "</p>"
+	}
+
+  proc download-page {} {
+
+    @ {
+      <!-- Cover + download -->
+      <div class="row mt-3">
+
+        <!-- Cover --> 
+        <section class="col-md mt-3">
+          <h3 class="d-none">Album cover</h3>
+          <img class="img-fluid img-thumbnail"
+               src="img/twosides.png"
+               alt="Two sides of the same coin"/>
+        </section>
+
+        <!-- Download -->
+        <section class="col-md mt-3">
+          <h3 class="d-none">Downloads</h3>}; make-songs; @ {
+        </section>
+      </div>
+    }
+  }
+
+  proc def-page {} {
+    set bio [bio::generate]
+    set events_title [string totitle [lang::translate events]]
+    set gigs [gigs::generate]
+
+    @ {
+      <!-- Picture + Bio -->
+      <div class="row mt-3">
+        
+        <!-- Picture -->
+        <section class="col-md mt-3">
+          <h3 class="d-none">Band picture</h3>
+          <img class="img-fluid img-thumbnail"
+               src="img/band2.jpg"
+               alt="Freddie & the Cannonballs"/>
+        </section>
+
+        <!-- Bio -->
+        <section class="col-md mt-3">
+          <h3 class="d-none">Biography</h3>
+          <p class="text-justify" id="i18n-bio">}; @ $bio; @ {
+          </p>
+        </section>
+      </div>
+
+      <!-- Gigs -->
+      <div class="row mt-4">
+        <section class="col offset-lg-2 col-lg-8 centered">
+          <h3 id="i18n-events">}; @ $events_title; @ {</h3>
+          <table class="table table-hover">
+            <tbody>}; @ $gigs; @ {
+            </tbody>
+          </table>
+        </section>
+      </div>
+    }
+  }
+
+  proc render {} {
+    switch [dict getdef $::scgi::params page {}] {
+      {33829ea9-e4cc-11ec-a758-001a4a7ec6be} {
+        download-page
+      }
+      default {
+        def-page
+      }
+    }
   }
 }
 
