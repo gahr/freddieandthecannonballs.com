@@ -47,7 +47,7 @@
       <!-- Logo -->
       <header class="row mt-4">
         <div class="col text-center">
-          <img class="img-fluid" src="img/logo.jpg" alt="Freddie & the Cannonballs"/>
+          <a href="/"><img class="img-fluid" src="img/logo.jpg" alt="Freddie & the Cannonballs"/></a>
         </div>
       </header>
 
@@ -72,37 +72,8 @@
         </button>
       </div>
 
-      <!-- Picture + Bio -->
-      <div class="row mt-3">
-        
-        <!-- Picture -->
-        <section class="col-md mt-3">
-          <h3 class="d-none">Band picture</h3>
-          <img class="img-fluid img-thumbnail"
-               src="img/band2.jpg"
-               alt="Freddie & the Cannonballs"/>
-        </section>
+      <? site::render ?>
 
-        <!-- Bio -->
-        <section class="col-md mt-3">
-          <h3 class="d-none">Biography</h3>
-          <p class="text-justify" id="i18n-bio">
-          <?@ [bio::generate] ?>
-          </p>
-        </section>
-      </div>
-
-      <!-- Gigs -->
-      <div class="row mt-4">
-        <section class="col offset-lg-2 col-lg-8 centered">
-          <h3 id="i18n-events"><?@ [string totitle [lang::translate events]] ?></h3>
-          <table class="table table-hover">
-            <tbody>
-              <?@ [gigs::generate] ?>
-            </tbody>
-          </table>
-        </section>
-      </div>
     </div>
 
     <footer class="container">
