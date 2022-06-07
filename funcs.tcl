@@ -13,28 +13,49 @@ namespace eval util {
   }
 }
 
-namespace eval lang {
-  variable terms {
-    en {
-      events    Events
-      download  {Download the full album (CD1)}
-      here      {here}
-    }
-    it {
-      events Eventi
-      download {Scarica l'intero album (CD1)}
-      here qui
+namespace eval bio {
+  proc generate {lang} {
+    util::with "./data/bio-$lang.txt" r fd {
+      string map { \{ <b> \} </b> } [read $fd]
     }
   }
+}
+
+namespace eval lang {
+  variable langs {en it}
+  variable terms [dict create \
+    events   [list {Events}  \
+                   {Eventi}] \
+    download [list {Download the full album (CD1)} \
+                   {Scarica l'intero album (CD1)}] \
+    here     [list {here} \
+                   {qui}] \
+    bio      [list [bio::generate en]  \
+                   [bio::generate it]] \
+  ]
 
   proc langs {} {
+    variable langs
+    set langs
+  }
+
+  proc terms {} {
     variable terms
     dict keys $terms
   }
  
   proc translate {term} {
+    variable langs
     variable terms
-    dict getdef [dict get $terms $::g(lang)] $term $term
+    set idx [lsearch -exact $langs $::g(lang)]
+    if {$idx == -1} {
+      set idx 0
+    }
+    set elem [dict getdef $terms $term {}]
+    if {$elem eq {}} {
+      return $term
+    }
+    lindex $elem $idx
   }
 
   proc get-param {} {
@@ -84,21 +105,13 @@ namespace eval lang {
   }
 }
 
-namespace eval bio {
-  proc generate {} {
-    util::with "./data/bio-$::g(lang).txt" r fd {
-      string map { \{ <b> \} </b> } [read $fd]
-    }
-  }
-}
 
 namespace eval i18n {
   proc generate {} {
-    json::write object \
-      bio      [json::write string [bio::generate]] \
-      events   [json::write string [lang::translate events]] \
-      download [json::write string [lang::translate download]] \
-      here     [json::write string [lang::translate here]]
+    foreach t [lang::terms] {
+      lappend elems $t [json::write string [lang::translate $t]]
+    }
+    json::write object {*}$elems
   }
 }
 
@@ -215,9 +228,6 @@ namespace eval icons {
 namespace eval action {
   proc handle {} {
     switch [dict getdef $::scgi::params action {}] {
-      {get-bio} {
-        @ [bio::generate]
-      }
       {get-i18n} {
         @ [i18n::generate]
       }
@@ -230,34 +240,35 @@ namespace eval action {
 }
 
 namespace eval site {
-	proc make-songs {} {
-		set songs {
-			{Cannonballs!}
-			{The Proof Is In The Pudding}
-			{Let Me Sleep}
-			{yOur Pain}
-			{Barking Up The Wrong Tree}
-			{Mosquito}
-			{Unsung Hero}
-			{Banana}
-			{We Shall Not Be Moved}}
-	
-		@ <ol>
+  proc make-songs {} {
+    set songs {
+      {Cannonballs!}
+      {The Proof Is In The Pudding}
+      {Let Me Sleep}
+      {yOur Pain}
+      {Barking Up The Wrong Tree}
+      {Mosquito}
+      {Unsung Hero}
+      {Banana}
+      {We Shall Not Be Moved}}
+  
+    @ <ol>
     set l [llength $songs]
-		set i 1
-		foreach song $songs {
-			@ <li>
-			@ "<button class='btn btn-sm mr-1' type='button' id='song-btn-$i' onclick='play($i, $l)'>&#x23EF;</button>"
-			@ "<span id='song-title-$i'>$song</span>"
-			@ " <audio id='song-$i'><source src='data/TwoSidesOfTheSameCoin/$i. $song.mp3' type='audio/mpeg'></audio>"
-			@ </li>
+    set i 1
+    foreach song $songs {
+      set src [string map {{ } %20} "$i. $song.mp3"]
+      @ <li>
+      @ "<button class='btn btn-sm mr-1' type='button' id='song-btn-$i' onclick='play($i, $l)'>&#x23EF;</button>"
+      @ "<span id='song-title-$i'>$song</span>"
+      @ " <audio id='song-$i'><source src='data/TwoSidesOfTheSameCoin/$src' type='audio/mpeg'></audio>"
+      @ </li>
       incr i
-		}
-		@ </ol>
-    @ "<p><span id='i18n-download'>[lang::translate download]</span> "
-    @ "<a href='data/TwoSidesOfTheSameCoin/FreddieAndTheCannonballs-TwoSidesOfTheSameCoin.zip'><span id='i18n-here'>[lang::translate here]</span></a>."
+    }
+    @ </ol>
+    @ "<p><span id='i18n-download'></span> "
+    @ "<a href='data/TwoSidesOfTheSameCoin/FreddieAndTheCannonballs-TwoSidesOfTheSameCoin.zip'><span id='i18n-here'></span></a>."
     @ "</p>"
-	}
+  }
 
   proc download-page {} {
 
@@ -277,19 +288,16 @@ namespace eval site {
         <section class="col-md mt-3">
           <h3 class="d-none">Downloads</h3>}; make-songs; @ {
         </section>
+
       </div>
     }
   }
 
   proc def-page {} {
-    set bio [bio::generate]
-    set events_title [string totitle [lang::translate events]]
-    set gigs [gigs::generate]
-
     @ {
       <!-- Picture + Bio -->
       <div class="row mt-3">
-        
+
         <!-- Picture -->
         <section class="col-md mt-3">
           <h3 class="d-none">Band picture</h3>
@@ -301,20 +309,23 @@ namespace eval site {
         <!-- Bio -->
         <section class="col-md mt-3">
           <h3 class="d-none">Biography</h3>
-          <p class="text-justify" id="i18n-bio">}; @ $bio; @ {
-          </p>
+          <p class="text-justify" id="i18n-bio"></p>
         </section>
+
       </div>
 
       <!-- Gigs -->
       <div class="row mt-4">
+
         <section class="col offset-lg-2 col-lg-8 centered">
-          <h3 id="i18n-events">}; @ $events_title; @ {</h3>
+          <h3 class="d-none">Events</h3>
+          <span id="i18n-events" class="h3"></span>
           <table class="table table-hover">
-            <tbody>}; @ $gigs; @ {
+            <tbody>}; @ [gigs::generate]; @ {
             </tbody>
           </table>
         </section>
+
       </div>
     }
   }

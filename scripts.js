@@ -9,6 +9,7 @@ $(document).ready(function() {
       });
     });
   });
+  $("#lang-".concat(default_lang)).click();
 });
 
 function play(on, n) {
@@ -27,6 +28,5 @@ function play(on, n) {
     }
   }
 }
-
 
 // vim: set ts=2 sw=2 expandtab:
