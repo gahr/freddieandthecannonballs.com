@@ -22,7 +22,7 @@ namespace eval bio {
 }
 
 namespace eval lang {
-  variable langs {en it}
+  variable langs [dict create en English it Italiano]
   variable terms [dict create \
     events   [list {Events}  \
                    {Eventi}] \
@@ -34,9 +34,17 @@ namespace eval lang {
                    [bio::generate it]] \
   ]
 
+  proc make-buttons {} {
+    variable langs
+
+    foreach {short long} $langs {
+      @ "<button class='btn btn-sm btn-outline-secondary mr-1' type='button' id='lang-$short'>$long</button>"
+    }
+  }
+
   proc langs {} {
     variable langs
-    set langs
+    dict keys $langs
   }
 
   proc terms {} {
@@ -45,9 +53,8 @@ namespace eval lang {
   }
  
   proc translate {term} {
-    variable langs
     variable terms
-    set idx [lsearch -exact $langs $::g(lang)]
+    set idx [lsearch -exact [langs] $::g(lang)]
     if {$idx == -1} {
       set idx 0
     }
