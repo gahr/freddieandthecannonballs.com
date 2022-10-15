@@ -210,6 +210,7 @@ namespace eval icons {
     facebook  https://facebook.com/FreddieCannonballs
     instagram https://instagram.com/freddieandthecannonballs
     youtube   https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA
+    spotify   https://freddieandthecannonballs.hearnow.com
     email     mailto:info@freddieandthecannonballs.com
   }
 
