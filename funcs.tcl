@@ -165,7 +165,7 @@ namespace eval gigs {
       set endepoch 0
     }
 
-   list $startepoch $endepoch $desc
+   list $startepoch $endepoch [markup::transform $desc]
   }
 
   proc gigs {} { 
