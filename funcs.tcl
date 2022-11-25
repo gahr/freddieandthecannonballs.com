@@ -13,10 +13,21 @@ namespace eval util {
   }
 }
 
+namespace eval markup {
+  proc transform {text} {
+    string map {
+      \{ <b>
+      \} </b>
+      <  <i>
+      >  </i>
+    } $text
+  }
+}
+
 namespace eval bio {
   proc generate {lang} {
     util::with "./data/bio-$lang.txt" r fd {
-      string map { \{ <b> \} </b> } [read $fd]
+      markup::transform [read $fd]
     }
   }
 }
