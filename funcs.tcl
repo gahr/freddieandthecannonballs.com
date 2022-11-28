@@ -317,16 +317,28 @@ namespace eval site {
       <!-- Picture + Bio -->
       <div class="row mt-3">
 
-        <!-- Picture -->
-        <section class="col-md mt-3">
+        <!-- Freddie picture -->
+        <section class="col-md">
+          <h3 class="d-none">Freddie picture</h3>
+          <p class="text-justify">
+            <img class="img-fluid img-thumbnail"
+                 src="img/freddie-2022.jpg"
+                 alt="Freddie & the Cannonballs"/>
+          </p>
+        </section>
+
+        <!-- Band picture -->
+        <section class="col-md">
           <h3 class="d-none">Band picture</h3>
           <img class="img-fluid img-thumbnail"
-               src="img/band2.jpg"
+               src="img/band-2022.jpg"
                alt="Freddie & the Cannonballs"/>
         </section>
 
-        <!-- Bio -->
-        <section class="col-md mt-3">
+      </div>
+
+      <div class="row">
+        <section class="col-md mt-2">
           <h3 class="d-none">Biography</h3>
           <p class="text-justify" id="i18n-bio"></p>
         </section>
