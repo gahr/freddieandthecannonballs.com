@@ -33,6 +33,10 @@
       }
     ?>
     <style>
+      html {
+        margin:    0 auto;
+        max-width: 800px;
+      }
       .icon {
         width: 30px;
       }
