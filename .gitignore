@@ -1,2 +1,6 @@
-.merlin
-_build
+data
+main
+*.import.scm
+*.so
+*.o
+*.link

@@ -1,0 +1,10 @@
+html {
+  margin:    0 auto;
+  max-width: 800px;
+}
+.icon {
+  width: 30px;
+}
+.colophon {
+  font-size: 0.6rem;
+}
