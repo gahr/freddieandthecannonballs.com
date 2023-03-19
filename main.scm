@@ -19,6 +19,8 @@
          (dev  (get-arg "-dev" #f)))
 
     (sp:root-path path)
+    (sp:access-log "/var/log/awful/access.log")
+    (sp:error-log "/var/log/awful/error.log")
     (awful-start
       site:run
       dev-mode?: dev
