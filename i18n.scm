@@ -2,10 +2,11 @@
 
   (import
     (scheme)
+    (chicken base)
     (only (chicken format) sprintf)
     (only (chicken string) string-split)
     (only (chicken sort) sort)
-    (only (srfi-1) filter zip)
+    (only (srfi-1) filter null-list? zip)
     (prefix (spiffy) sp:)
     (prefix (intarweb) iw:)
     (prefix (fatc bio) fatc:bio:))
@@ -21,7 +22,9 @@
            (pars (map (lambda (elem) (or (iw:get-param 'q elem) 1.0)) hdrs))
            (both (zip vals pars))
            (cand (filter (lambda (elem) (assoc (car elem) languages)) both))
-           (best (caar (sort cand (lambda (lhs rhs) (> (cadr lhs) (cadr rhs)))))))
+           (best (if (null-list? cand)
+                   (car languages)
+                   (caar (sort cand (lambda (lhs rhs) (> (cadr lhs) (cadr rhs))))))))
       best))
 
   (define language-terms
