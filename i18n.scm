@@ -2,7 +2,6 @@
 
   (import
     (scheme)
-    (chicken base)
     (only (chicken format) sprintf)
     (only (chicken string) string-split)
     (only (chicken sort) sort)
