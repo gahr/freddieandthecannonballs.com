@@ -15,16 +15,18 @@
       ("it" . "Italiano")))
 
   (define (default-language)
-    (let* ((hdrs (iw:header-contents 'accept-language (iw:request-headers (sp:current-request))))
-           (tags (map iw:get-value hdrs))
-           (vals (map (lambda (elem) (car (string-split (symbol->string elem) "-"))) tags))
-           (pars (map (lambda (elem) (or (iw:get-param 'q elem) 1.0)) hdrs))
-           (both (zip vals pars))
-           (cand (filter (lambda (elem) (assoc (car elem) languages)) both))
-           (best (if (null-list? cand)
-                   (car languages)
-                   (caar (sort cand (lambda (lhs rhs) (> (cadr lhs) (cadr rhs))))))))
-      best))
+    (let ((hdrs     (iw:header-contents 'accept-language (iw:request-headers (sp:current-request))))
+          (fallback (caar languages)))
+      (if (not hdrs)
+        fallback
+        (let* ((tags (map iw:get-value hdrs))
+               (vals (map (lambda (elem) (car (string-split (symbol->string elem) "-"))) tags))
+               (pars (map (lambda (elem) (or (iw:get-param 'q elem) 1.0)) hdrs))
+               (both (zip vals pars))
+               (cand (filter (lambda (elem) (assoc (car elem) languages)) both))
+               (prio (sort cand (lambda (lhs rhs) (> (cadr lhs) (cadr rhs)))))
+               (best (if (null-list? prio) fallback (caar prio))))
+          best))))
 
   (define language-terms
     ;; The thunk that wraps the inner alist allows us to re-evaluate the values
