@@ -16,11 +16,15 @@
          (path (get-arg "-path" (executable-pathname)))
          (addr (get-arg "-addr" "127.0.0.1"))
          (port (get-arg "-port" "8080"))
-         (dev  (get-arg "-dev" #f)))
+         (dev  (get-arg "-dev" #f))
+         (alog (get-arg "-access-log" #f))
+         (dlog (get-arg "-debug-log" #f))
+         (elog (get-arg "-error-log" #f)))
 
     (sp:root-path path)
-    (sp:access-log "/var/log/awful/access.log")
-    (sp:error-log "/var/log/awful/error.log")
+    (if alog (sp:access-log alog))
+    (if dlog (sp:debug-log dlog))
+    (if elog (sp:error-log elog))
     (awful-start
       site:run
       dev-mode?: dev
