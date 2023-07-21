@@ -74,7 +74,7 @@
          '(("facebook"  "https://facebook.com/FreddieCannonballs")
            ("instagram" "https://instagram.com/freddieandthecannonballs")
            ("youtube"   "https://www.youtube.com/channel/UCo2lWw8G9p1WiJUHsV8FeUA")
-           ("spotify"   "https://freddieandthecannonballs.hearnow.com")
+           ("spotify"   "https://open.spotify.com/artist/6vzZRD8QvBc5tOX7c4D1bv")
            ("email"     "mailto:info@freddieandthecannonballs.com"))))
 
   (define (language-buttons)
