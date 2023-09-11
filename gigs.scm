@@ -2,6 +2,7 @@
 
   (import
     (scheme)
+    (only (chicken condition) handle-exceptions)
     (only (chicken format) sprintf)
     (only (chicken io) read-lines)
     (chicken irregex)
@@ -26,10 +27,11 @@
               (date2 (irregex-match-substring m 'date2))
               (desc (irregex-match-substring m 'desc))
               (fmt   "~Y-~m-~d"))
-          (list
-            (string->date date1 fmt)
-            (if date2 (string->date date2 fmt) #f)
-            (fatc:markup:render desc)))
+          (handle-exceptions _ #f
+            (list
+              (string->date date1 fmt)
+              (if date2 (string->date date2 fmt) #f)
+              (fatc:markup:render desc))))
         #f)))
 
   (define date1 first)
