@@ -16,7 +16,7 @@
   ;;
   ;; Parameters
   ;;
-  (ajax-library "https://code.jquery.com/jquery-3.6.3.min.js")
+  (ajax-library "https://code.jquery.com/jquery-3.7.1.min.js")
   (web-repl-access-control (lambda () #t))
 
   ;;
