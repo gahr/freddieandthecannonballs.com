@@ -1,12 +1,11 @@
 REPO=fossil info | grep ^repository | awk '{print $$2}'
-ENV=env CHICKEN_REPOSITORY_PATH="${CHICKEN_REPOSITORY_PATH}:${.CURDIR}"
 CMD=csm -static -program main -max-procs 4
 
 all:
-	${ENV} ${CMD}
+	${CMD}
 
 clean:
-	${ENV} ${CMD} -clean
+	${CMD} -clean
 
 git:
 	@if [ -e git-import ]; then \
