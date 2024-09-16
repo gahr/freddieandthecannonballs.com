@@ -10,7 +10,6 @@
     (only (srfi-13) string-titlecase)
 
     (prefix (page main)   fatc:page:main:)
-    (prefix (page listen) fatc:page:listen:)
     (prefix (fatc i18n)   fatc:i18n:))
 
   ;;
@@ -173,7 +172,6 @@
                         use-sxml: #t
                         title: site-title))
 
-         `((,fatc:page:main:path   . ,fatc:page:main:make)
-           (,fatc:page:listen:path . ,fatc:page:listen:make))))
+         `((,fatc:page:main:path   . ,fatc:page:main:make))))
 
 )
