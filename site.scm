@@ -1,6 +1,7 @@
 (module site (run)
   (import
     (scheme)
+    (only (chicken base) cut error unless)
     (only (chicken format) sprintf)
     (only (regex) string-match)
     (awful)
@@ -8,9 +9,11 @@
     (prefix (spiffy) sp:)
     (only (srfi-1) find)
     (only (srfi-13) string-titlecase)
+    (only (srfi-18) thread-start! thread-sleep!)
 
     (prefix (page main)   fatc:page:main:)
-    (prefix (fatc i18n)   fatc:i18n:))
+    (prefix (fatc i18n)   fatc:i18n:)
+    (prefix (fatc data)   fatc:data:))
 
   ;;
   ;; Parameters
@@ -110,27 +113,27 @@
                         (type  "image/png"))))
             '(57 60 72 76 114 120 144 152 180 192))
       ,(map (lambda (size)
-            `(link (@ (rel  "icon")
-                      (href ,(sprintf "favicons/icon-~Ax~A.png" size size))
-                      (type "image/png"))))
+              `(link (@ (rel  "icon")
+                        (href ,(sprintf "favicons/icon-~Ax~A.png" size size))
+                        (type "image/png"))))
             '(16 32 96))))
 
   (define (common-pre)
     (make-ajax)
     `((header
-         (@ (class "row mt-4"))
-         (div
-           (@ (class "col text-center"))
-           ,(logo)))
-       (div
-         (@ (class "row mt-4"))
-         (nav
-           (@ (class "col text-center"))
-           ,(media-icons)))
-       (div
-         (@ (class "row mt-3 justify-content-center"))
-         ,(language-buttons))
-       (hr)))
+        (@ (class "row mt-4"))
+        (div
+          (@ (class "col text-center"))
+          ,(logo)))
+      (div
+        (@ (class "row mt-4"))
+        (nav
+          (@ (class "col text-center"))
+          ,(media-icons)))
+      (div
+        (@ (class "row mt-3 justify-content-center"))
+        ,(language-buttons))
+      (hr)))
 
   (define (common-post)
     (let ((alf     `(a (@ (href "https://www.alfredocreates.com")) "AlfredoCreates.com"))
@@ -157,10 +160,20 @@
         ,(thunk)
         ,(common-post))))
 
+  (define (update-data data-url)
+    (let loop ()
+      (fatc:data:get data-url)
+      (thread-sleep! 3600)
+      (loop)))
+
   ;;
   ;; Entry
   ;;
-  (define (run)
+  (define (run args)
+    (let ((data-url (member "data-url" args)))
+      (unless data-url (error "Required arg: data-rul"))
+      (thread-start! (cut update-data (cadr data-url))))
+
     (map (lambda (elem)
            (define-page (car elem)
                         (lambda () (make-page (cdr elem)))
@@ -172,6 +185,6 @@
                         use-sxml: #t
                         title: site-title))
 
-         `((,fatc:page:main:path   . ,fatc:page:main:make))))
+         `((,fatc:page:main:path . ,fatc:page:main:make))))
 
 )

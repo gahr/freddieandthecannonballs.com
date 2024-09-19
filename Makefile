@@ -1,8 +1,12 @@
+DEPS=openssl awful-main csm http-client regex doctype srfi-19
 REPO=fossil info | grep ^repository | awk '{print $$2}'
-CMD=csm -static -program main -max-procs 4
+CMD=csm -static -max-procs 4 -L -lssl -L -lcrypto -program main
 
 all:
 	${CMD}
+
+prereqs:
+	chicken-install lay && lay ${DEPS}
 
 clean:
 	${CMD} -clean
