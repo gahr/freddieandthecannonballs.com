@@ -2,6 +2,7 @@
 
   (import
     (scheme)
+    (only (chicken base) unless)
     (only (chicken format) sprintf)
     (only (awful) main-page-path)
     (only (srfi-1) filter)
@@ -75,17 +76,19 @@
       (filter (lambda (gig) (date<? now (fatc:gigs:date1 gig))) (fatc:gigs:get))))
 
   (define (make-gigs)
-    `((div
-        (@ (class "row mt-4"))
-        (section
-          (@ (class "col offset-lg-2 col-lg-8 centered"))
-          (h3 (@ (class "d-none")) "Events")
-          (span (@ (class "h3")
-                   (id    "i18n-events")))
-          (table
-            (@ (class "table table-hover"))
-            (tbody
-              ,(map format-gig (future-gigs))))))))
+    (let ((gigs (future-gigs)))
+      (unless (null? gigs)
+        `((div
+            (@ (class "row mt-4"))
+            (section
+              (@ (class "col offset-lg-2 col-lg-8 centered"))
+              (h3 (@ (class "d-none")) "Events")
+              (span (@ (class "h3")
+                       (id    "i18n-events")))
+              (table
+                (@ (class "table table-hover"))
+                (tbody
+                  ,(map format-gig gigs)))))))))
 
   (define (make)
     `(,(make-pics)
