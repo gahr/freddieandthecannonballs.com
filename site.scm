@@ -59,7 +59,7 @@
        (@ (href "/"))
        (img
          (@ (class "img-fluid")
-            (src   "img/logo-sba2024.jpg")
+            (src   "img/logo-sba2025.jpg")
             (alt   ,site-title)))))
 
   (define (media-icons)
